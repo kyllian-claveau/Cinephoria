@@ -1,0 +1,64 @@
+# Symfony standard directories
+/var/
+/vendor/
+/node_modules/
+
+# Symfony 7 specific
+/public/bundles/
+/public/build/
+
+# .env files (configuration sensitive data)
+.env
+.env.local
+.env.*.local
+/.env.dev
+/.envrc
+/.env.local.php
+
+# PHPStorm & IDE specific files
+.idea/
+/.vscode/
+
+# Composer vendor dir and files
+/composer.lock
+
+# Nginx logs (if applicable)
+logs/
+
+# PHPUnit
+/phpunit.xml
+/phpunit.xml.dist
+
+# Symfony cache & logs
+/var/cache/
+/var/log/
+
+# Mac specific files
+.DS_Store
+
+# Windows specific files
+Thumbs.db
+
+# Temporary files
+*.swp
+*~
+*.bak
+
+# Other ignored files and folders
+/.phpunit.result.cache
+/.composer/
+
+# Docker files
+docker-compose.override.yml
+.docker/
+
+# Caches
+/.cache/
+
+# Laravel Mix or other frontend build artifacts (if used)
+/public/mix-manifest.json
+/.npm/
+
+# Symfony Profiler (for dev)
+/.symfony-profiler/
+
