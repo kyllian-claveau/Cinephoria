@@ -1,0 +1,40 @@
+<div id="loginPopup">
+    <div class="popup-content">
+        <button id="closePopup" class="close-button">X</button>
+        <div class="popup-header">
+            <img src="{{ asset('images/logo.png') }}" alt="Logo" class="logo">
+            <h2>Connexion</h2>
+        </div>
+
+        <!-- Formulaire de connexion -->
+        <form id="loginForm">
+            <label class="text-black" for="username">Email :</label>
+            <input type="email" id="username" name="email" required placeholder="Votre email" class="input-field">
+
+            <label class="text-black" for="password">Mot de passe :</label>
+            <input type="password" id="password" name="password" required placeholder="Votre mot de passe" class="input-field">
+            <button type="submit" class="submit-button">Se connecter</button>
+        </form>
+
+        <!-- Bouton pour réinitialiser le mot de passe -->
+        <button id="forgotPasswordButton" class="text-black resetPasswordLink">Mot de passe oublié ?</button>
+
+        <!-- Formulaire de réinitialisation du mot de passe (caché par défaut) -->
+        <div id="resetPasswordForm" style="display: none;">
+            <label for="emailReset" class="text-black">Email :</label>
+            <input type="email" id="emailReset" name="email" required placeholder="Entrez votre email" class="input-field">
+            <button type="submit" class="submit-button" id="submitResetPasswordButton">Envoyer le mot de passe temporaire</button>
+            <div id="resetResult"></div>
+        </div>
+
+        <!-- Formulaire de changement de mot de passe (caché par défaut) -->
+        <div id="changePasswordForm" style="display: none;">
+            <label for="newPassword" class="text-black">Nouveau mot de passe :</label>
+            <input type="password" id="newPassword" name="newPassword" required placeholder="Entrez un nouveau mot de passe" class="input-field">
+            <button type="submit" id="submitChangePasswordButton" class="submit-button">Changer le mot de passe</button>
+            <div id="changePasswordResult"></div>
+        </div>
+    </div>
+</div>
+
+{{ encore_entry_script_tags('scripts/login') }}

@@ -1,0 +1,96 @@
+{% extends 'layouts/baseAdmin.html.twig' %}
+
+{% block title %}Tableau de bord{% endblock %}
+
+{% block content %}
+    <div class="mt-24 md:ml-64 px-4 sm:px-6 lg:px-8">
+        <div class="sm:flex sm:items-center">
+            <div class="sm:flex-auto">
+                <h1 class="text-base font-semibold text-yellow-500 leading-6">Tableau de bord</h1>
+                <p class="mt-2 text-sm text-gray-700">Votre tableau de bord</p>
+            </div>
+        </div>
+
+        <div class="mt-8 flow-root">
+            <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+                    <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
+                        <table class="min-w-full divide-y divide-primary">
+                            <thead class="bg-indigo-600 text-white">
+                            <tr>
+                                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold">Film</th>
+                                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold">Billet vendu</th>
+                                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold">Montant total</th>
+                            </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200 bg-white">
+                            {% for film, stats in stats['stats'] %}
+                                <tr>
+                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ film }}</td>
+                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ stats['count'] }}</td>
+                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ stats['revenue'] | number_format(2, '.', ',') }} €</td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td class="whitespace-nowrap py-4 text-sm font-medium text-center" colspan="6">
+                                        Aucun graphique disponible
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Graphique -->
+        <div class="mt-8">
+            <h2 class="text-lg font-medium text-gray-700">Graphique des réservations et revenus</h2>
+            <canvas id="filmStatsChart" width="400" height="200"></canvas>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Préparer les données
+        const stats = {{ stats|json_encode|raw }};
+
+        const labels = stats.films;
+        const reservationData = stats.stats.map(filmStats => filmStats.count);
+        const revenueData = stats.stats.map(filmStats => filmStats.revenue);
+
+        // Créer le graphique
+        const ctx = document.getElementById('filmStatsChart').getContext('2d');
+        const chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Billets vendus',
+                        data: reservationData,
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Revenu total (€)',
+                        data: revenueData,
+                        backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                        borderColor: 'rgba(153, 102, 255, 1)',
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+{% endblock %}

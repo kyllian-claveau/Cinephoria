@@ -1,0 +1,234 @@
+{% extends 'layouts/baseEmployee.html.twig' %}
+
+{% block title %}Tableau de bord{% endblock %}
+
+{% block content %}
+    <div class="mt-24 md:ml-64 px-4 sm:px-6 lg:px-8">
+        <div class="sm:flex sm:items-center">
+            <div class="sm:flex-auto">
+                <h1 class="text-2xl font-semibold text-yellow-500 leading-6">Création d'une nouvelle salle</h1>
+            </div>
+        </div>
+        <section>
+            <div class="grid grid-cols-1 gap-x-8 gap-y-8 pt-10 md:grid-cols-2">
+                {{ form_start(form, {'attr': {'class': 'bg-white shadow-sm ring-1 ring-gray-200 sm:rounded-xl md:col-span-2'}}) }}
+                <div class="px-4 py-6 sm:p-8">
+                    <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                        <div class="sm:col-span-3">
+                            {{ form_label(form.number, 'Numéro de salle') }}
+                            <div class="mt-2">
+                                {{ form_widget(form.number, {'attr': {'class': 'block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6'}}) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                        <div class="sm:col-span-3">
+                            {{ form_label(form.quality, 'Qualité') }}
+                            <div class="mt-2">
+                                {{ form_widget(form.quality, {'attr': {'class': 'block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6'}}) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                        <div class="sm:col-span-3">
+                            {{ form_label(form.rowsRoom, 'Rangées') }}
+                            <div class="mt-2">
+                                {{ form_widget(form.rowsRoom, {'attr': {'class': 'block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6'}}) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                        <div class="sm:col-span-3">
+                            {{ form_label(form.columnsRoom, 'Colonnes') }}
+                            <div class="mt-2">
+                                {{ form_widget(form.columnsRoom, {'attr': {'class': 'block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6'}}) }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section des sièges accessibles -->
+                    <div id="accessible-seats" class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                        <div class="sm:col-span-3">
+                            <h3>Réserver des sièges accessibles</h3>
+                            <div class="mt-2">
+                                <div id="accessible-seats-preview"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section d'aperçu de la salle -->
+                    <div id="preview" class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                        <div class="sm:col-span-3">
+                            <h3>Aperçu de la salle</h3>
+                            <div class="mt-2">
+                                <div id="salle-structure"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Boutons d'action -->
+                <div class="flex items-center justify-end gap-x-6 border-t border-gray-900/10 px-4 py-4 sm:px-8">
+                    <a href="{{ path('app_employee_room') }}" type="button"
+                       class="text-sm font-semibold leading-6 text-gray-900">Annuler</a>
+                    <button type="submit"
+                            class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary">
+                        Sauvegarder
+                    </button>
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </section>
+    </div>
+
+    <!-- Script pour la gestion des escaliers -->
+    <script>
+        const rowsInput = document.querySelector('#{{ form.rowsRoom.vars.id }}');
+        const columnsInput = document.querySelector('#{{ form.columnsRoom.vars.id }}');
+        const stairsInput = document.createElement('input');
+        stairsInput.type = 'hidden';
+        stairsInput.name = '{{ form.vars.full_name }}[stairs]';
+        stairsInput.id = 'stairs';
+        document.querySelector('form').appendChild(stairsInput);
+
+        let stairs = [];
+
+        function renderPreview(rows, columns) {
+            const preview = document.getElementById('salle-structure');
+            preview.innerHTML = ''; // Reset
+            stairs = []; // Reset les escaliers
+            for (let i = 0; i < rows; i++) {
+                const row = document.createElement('div');
+                row.style.display = 'flex';
+                for (let j = 0; j < columns; j++) {
+                    const seat = document.createElement('div');
+                    seat.style.width = '20px';
+                    seat.style.height = '20px';
+                    seat.style.margin = '2px';
+                    seat.style.backgroundColor = '#ccc';
+                    seat.style.border = '1px solid #000';
+                    seat.dataset.row = i;
+                    seat.dataset.col = j;
+
+                    seat.addEventListener('click', () => toggleStair(seat));
+
+                    row.appendChild(seat);
+                }
+                preview.appendChild(row);
+            }
+            updateStairsInput();
+        }
+
+        function toggleStair(seat) {
+            const row = parseInt(seat.dataset.row, 10);
+            const col = parseInt(seat.dataset.col, 10);
+
+            const index = stairs.findIndex(s => s.row === row && s.col === col);
+            if (index === -1) {
+                stairs.push({ row, col });
+                seat.style.backgroundColor = 'transparent'; // Escalier
+                seat.style.border = '1px dashed #000';
+            } else {
+                stairs.splice(index, 1);
+                seat.style.backgroundColor = '#ccc'; // Siège normal
+                seat.style.border = '1px solid #000';
+            }
+
+            updateStairsInput();
+        }
+
+        function updateStairsInput() {
+            stairsInput.value = JSON.stringify(stairs);
+        }
+
+        if (rowsInput && columnsInput) {
+            rowsInput.addEventListener('input', () => {
+                renderPreview(rowsInput.value, columnsInput.value);
+            });
+
+            columnsInput.addEventListener('input', () => {
+                renderPreview(rowsInput.value, columnsInput.value);
+            });
+        }
+
+        if (rowsInput.value && columnsInput.value) {
+            renderPreview(rowsInput.value, columnsInput.value);
+        }
+    </script>
+
+    <!-- Script pour la gestion des sièges accessibles -->
+    <script>
+        const accessibleSeatsInput = document.createElement('input');
+        accessibleSeatsInput.type = 'hidden';
+        accessibleSeatsInput.name = '{{ form.vars.full_name }}[accessibleSeats]';
+        accessibleSeatsInput.id = 'accessible-seats';
+        document.querySelector('form').appendChild(accessibleSeatsInput);
+
+        let accessibleSeats = [];
+
+        function renderAccessibleSeatsPreview(rows, columns) {
+            const previewContainer = document.getElementById('accessible-seats-preview');
+            previewContainer.innerHTML = ''; // Reset
+
+            for (let i = 0; i < rows; i++) {
+                const row = document.createElement('div');
+                row.style.display = 'flex';
+
+                for (let j = 0; j < columns; j++) {
+                    const seat = document.createElement('div');
+                    seat.style.width = '20px';
+                    seat.style.height = '20px';
+                    seat.style.margin = '2px';
+                    seat.style.backgroundColor = '#ccc';
+                    seat.style.border = '1px solid #000';
+                    seat.dataset.row = i;
+                    seat.dataset.col = j;
+
+                    seat.addEventListener('click', () => toggleAccessibleSeat(seat));
+
+                    row.appendChild(seat);
+                }
+
+                previewContainer.appendChild(row);
+            }
+
+            updateAccessibleSeatsInput();
+        }
+
+        function toggleAccessibleSeat(seat) {
+            const row = parseInt(seat.dataset.row, 10);
+            const col = parseInt(seat.dataset.col, 10);
+
+            const index = accessibleSeats.findIndex(s => s.row === row && s.col === col);
+            if (index === -1) {
+                accessibleSeats.push({ row, col });
+                seat.style.backgroundColor = 'blue'; // Siège accessible
+                seat.style.border = '1px dashed blue';
+            } else {
+                accessibleSeats.splice(index, 1);
+                seat.style.backgroundColor = '#ccc';
+                seat.style.border = '1px solid #000';
+            }
+
+            updateAccessibleSeatsInput();
+        }
+
+        function updateAccessibleSeatsInput() {
+            accessibleSeatsInput.value = JSON.stringify(accessibleSeats);
+        }
+
+        if (rowsInput && columnsInput) {
+            rowsInput.addEventListener('input', () => {
+                renderAccessibleSeatsPreview(rowsInput.value, columnsInput.value);
+            });
+
+            columnsInput.addEventListener('input', () => {
+                renderAccessibleSeatsPreview(rowsInput.value, columnsInput.value);
+            });
+        }
+
+        if (rowsInput.value && columnsInput.value) {
+            renderAccessibleSeatsPreview(rowsInput.value, columnsInput.value);
+        }
+    </script>
+{% endblock %}

@@ -62,3 +62,7 @@ docker-compose.override.yml
 # Symfony Profiler (for dev)
 /.symfony-profiler/
 
+
+###> lexik/jwt-authentication-bundle ###
+/config/jwt/*.pem
+###< lexik/jwt-authentication-bundle ###

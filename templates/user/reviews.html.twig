@@ -1,0 +1,52 @@
+{% extends 'layouts/baseUser.html.twig' %}
+
+{% block title %}Tableau de bord{% endblock %}
+
+{% block content %}
+    <div class="mt-24 md:ml-64 px-4 sm:px-6 lg:px-8">
+        <div class="sm:flex sm:items-center">
+            <div class="sm:flex-auto">
+                <h1 class="text-base font-semibold text-yellow-500 leading-6">Avis</h1>
+                <p class="mt-2 text-sm text-gray-700">Une liste de tous les avis de mes séances Cinéphoria</p>
+            </div>
+        </div>
+
+        <div class="mt-8 flow-root">
+            <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+                    <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
+                        <table class="min-w-full divide-y divide-primary">
+                            <thead class="bg-indigo-600 text-white">
+                            <tr>
+                                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold">Affiche</th>
+                                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold">Film</th>
+                                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold">Note</th>
+                                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold">Description</th>
+                            </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200 bg-white">
+                            {% for review in reviews %}
+                                <tr>
+                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"><img
+                                                src="{{ asset("/images/film/"~ review.film.filmFilename) }}"
+                                                alt="{{ review.film.title }}"
+                                                class="w-10 transition-opacity group-hover:opacity-90"></td>
+                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ review.film.title }}</td>
+                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ review.rating }} / 5</td>
+                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ review.description }}</td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td class="whitespace-nowrap py-4 text-sm font-medium text-center" colspan="6">
+                                        Aucun avis enregistré
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

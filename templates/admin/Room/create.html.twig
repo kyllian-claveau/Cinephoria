@@ -1,0 +1,69 @@
+{% extends 'layouts/baseAdmin.html.twig' %}
+
+{% block title %}Tableau de bord{% endblock %}
+
+{% block content %}
+    <div class="mt-24 md:ml-64 px-4 sm:px-6 lg:px-8">
+        <div class="sm:flex sm:items-center">
+            <div class="sm:flex-auto">
+                <h1 class="text-2xl font-semibold text-yellow-500 leading-6">Création d'une nouvelle salle</h1>
+            </div>
+        </div>
+        <section>
+            <div class="grid grid-cols-1 gap-x-8 gap-y-8 pt-10 md:grid-cols-2">
+                {{ form_start(form, {'attr': {'class': 'bg-white shadow-sm ring-1 ring-gray-200 sm:rounded-xl md:col-span-2'}}) }}
+                <div class="px-4 py-6 sm:p-8">
+                    <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                        <div class="sm:col-span-3">
+                            {{ form_label(form.number, 'Numéro de salle') }}
+                            <div class="mt-2">
+                                {{ form_widget(form.number, {'attr': {'class': 'block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6'}}) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                        <div class="sm:col-span-3">
+                            {{ form_label(form.quality.name, 'Qualité') }}
+                            <div class="mt-2">
+                                {{ form_widget(form.quality.name, {'attr': {'class': 'block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6'}}) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                        <div class="sm:col-span-3">
+                            {{ form_label(form.places, 'Nombre de places') }}
+                            <div class="mt-2">
+                                {{ form_widget(form.places, {'attr': {'class': 'block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6'}}) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center justify-end gap-x-6 border-t border-gray-900/10 px-4 py-4 sm:px-8">
+                    <a href="{{ path('app_admin_room') }}" type="button"
+                       class="text-sm font-semibold leading-6 text-gray-900">Annuler</a>
+                    <button type="submit"
+                            class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary">
+                        Sauvegarder
+                    </button>
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </section>
+
+        <!-- Section des actions rapides -->
+        <section class="py-6 px-6">
+            <h2 class="text-xl font-semibold text-gray-700">Actions rapides</h2>
+            <div class="flex space-x-4 mt-4">
+                <button class="flex-1 bg-indigo-600 text-white py-3 px-6 rounded-lg shadow-lg hover:bg-indigo-700">
+                    <i class="fas fa-plus-circle mr-3"></i> Nouvelle tâche
+                </button>
+                <button class="flex-1 bg-green-500 text-white py-3 px-6 rounded-lg shadow-lg hover:bg-green-600">
+                    <i class="fas fa-chart-line mr-3"></i> Voir les rapports
+                </button>
+                <button class="flex-1 bg-red-500 text-white py-3 px-6 rounded-lg shadow-lg hover:bg-red-600">
+                    <i class="fas fa-bell mr-3"></i> Notifications
+                </button>
+            </div>
+        </section>
+    </div>
+{% endblock %}

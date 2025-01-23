@@ -1,0 +1,142 @@
+{% extends 'layouts/baseEmployee.html.twig' %}
+
+{% block title %}Tableau de bord{% endblock %}
+
+{% block content %}
+    <div class="mt-24 md:ml-64 px-4 sm:px-6 lg:px-8">
+        <div class="sm:flex sm:items-center">
+            <div class="sm:flex-auto">
+                <h1 class="text-2xl font-semibold text-yellow-500 leading-6">Création d'une nouvelle séance</h1>
+            </div>
+        </div>
+        <section>
+            <div class="grid grid-cols-1 gap-x-8 gap-y-8 pt-10 md:grid-cols-2">
+                {{ form_start(form, {'attr': {'class': 'bg-white shadow-sm ring-1 ring-gray-200 sm:rounded-xl md:col-span-2'}}) }}
+                <div class="px-4 py-6 sm:p-8">
+                    <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                        <div class="sm:col-span-3">
+                            {{ form_label(form.startDate, 'Date de début') }}
+                            <div class="mt-2">
+                                {{ form_widget(form.startDate, {'attr': {'class': 'block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6'}}) }}
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Champ Date de fin -->
+                    <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                        <div class="sm:col-span-3">
+                            {{ form_label(form.endDate, 'Date de fin') }}
+                            <div class="mt-2">
+                                {{ form_widget(form.endDate, {'attr': {'class': 'block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6'}}) }}
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Champ Film -->
+                    <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                        <div class="sm:col-span-3">
+                            {{ form_label(form.film, 'Choisir un film') }}
+                            <div class="mt-2">
+                                {{ form_widget(form.film, {'attr': {'class': 'block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6'}}) }}
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Champ Cinémas (checkboxes) -->
+                    <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                        <div class="sm:col-span-3">
+                            {{ form_label(form.cinema, 'Choisir un cinéma') }}
+                            <div class="mt-2">
+                                {{ form_widget(form.cinema, {'attr': {'class': 'block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6'}}) }}
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Champ Salle -->
+                    <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                        <div class="sm:col-span-3">
+                            {{ form_label(form.room, 'Choisir une salle') }}
+                            <div class="mt-2">
+                                {{ form_widget(form.room, {'attr': {'class': 'block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6'}}) }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                        <div class="sm:col-span-3">
+                            {{ form_label(form.price, 'Choisir un prix') }}
+                            <div class="mt-2">
+                                {{ form_widget(form.price, {'attr': {'class': 'block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-200 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6'}}) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center justify-end gap-x-6 border-t border-gray-900/10 px-4 py-4 sm:px-8">
+                    <a href="{{ path('app_employee_session') }}" type="button"
+                       class="text-sm font-semibold leading-6 text-gray-900">Annuler</a>
+                    <button type="submit"
+                            class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-secondary">
+                        Sauvegarder
+                    </button>
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </section>
+
+        <section class="py-6 px-6">
+            <h2 class="text-xl font-semibold text-gray-700">Actions rapides</h2>
+            <div class="flex space-x-4 mt-4">
+                <button class="flex-1 bg-indigo-600 text-white py-3 px-6 rounded-lg shadow-lg hover:bg-indigo-700">
+                    <i class="fas fa-plus-circle mr-3"></i> Nouvelle tâche
+                </button>
+                <button class="flex-1 bg-green-500 text-white py-3 px-6 rounded-lg shadow-lg hover:bg-green-600">
+                    <i class="fas fa-chart-line mr-3"></i> Voir les rapports
+                </button>
+                <button class="flex-1 bg-red-500 text-white py-3 px-6 rounded-lg shadow-lg hover:bg-red-600">
+                    <i class="fas fa-bell mr-3"></i> Notifications
+                </button>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        document.getElementById('session_film').addEventListener('change', function () {
+            const filmId = this.value;
+            const cinemasContainer = document.getElementById('cinemas-container');
+
+            if (filmId) {
+                fetch(`/employee/api/films/${filmId}/cinemas`)
+                    .then(response => response.json())
+                    .then(data => {
+                        cinemasContainer.innerHTML = ''; // Vider la liste des cinémas
+
+                        if (data.length > 0) {
+                            cinemasContainer.style.display = 'block'; // Afficher les checkboxes
+
+                            data.forEach(cinema => {
+                                const div = document.createElement('div');
+                                div.classList.add('flex', 'items-center');
+
+                                const checkbox = document.createElement('input');
+                                checkbox.type = 'checkbox';
+                                checkbox.name = 'session[cinemas][]';
+                                checkbox.value = cinema.id;
+                                checkbox.id = `cinema-${cinema.id}`;
+
+                                const label = document.createElement('label');
+                                label.setAttribute('for', `cinema-${cinema.id}`);
+                                label.textContent = cinema.name;
+                                label.classList.add('ml-2');
+
+                                div.appendChild(checkbox);
+                                div.appendChild(label);
+
+                                cinemasContainer.appendChild(div);
+                            });
+                        } else {
+                            cinemasContainer.style.display = 'none'; // Aucun cinéma associé
+                        }
+                    })
+                    .catch(error => console.error('Erreur:', error));
+            } else {
+                cinemasContainer.style.display = 'none'; // Cacher les cinémas si aucun film sélectionné
+            }
+        });
+
+    </script>
+{% endblock %}

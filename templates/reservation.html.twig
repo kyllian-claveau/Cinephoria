@@ -1,0 +1,91 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %}Vos films{% endblock %}
+
+{% block content %}
+    <header>
+        {% include "header.html.twig" %}
+    </header>
+
+    <section id="filters" class="pt-20 py-6 bg-gray-800">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-3xl font-extrabold text-yellow-500 text-center">Choisissez votre cinéma</h2>
+            <form method="get" action="{{ path('app_reservation') }}" class="mt-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label for="cinema" class="block text-lg text-white">Cinéma</label>
+                        <select name="cinema" id="cinema" class="block w-full p-2 mt-2 rounded-lg bg-gray-700 text-white">
+                            <option value="">Tous les cinémas</option>
+                            {% for cinema in cinemas %}
+                                <option value="{{ cinema.id }}" {% if app.request.query.get('cinema') == cinema.id %}selected{% endif %}>
+                                    {{ cinema.name }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="number_of_people" class="block text-lg text-white">Nombre de personnes</label>
+                        <input type="number" name="number_of_people" id="number_of_people" min="1" class="block w-full p-2 mt-2 rounded-lg bg-gray-700 text-white" value="{{ app.request.query.get('number_of_people', 1) }}">
+                    </div>
+                </div>
+
+                <div class="mt-6 text-center">
+                    <button type="submit" class="bg-yellow-500 hover:bg-yellow-400 text-black py-2 px-4 rounded-full text-lg font-semibold transition-all">
+                        Filtrer les séances
+                    </button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <section id="films" class="py-20 bg-black">
+        <div class="max-w-7xl mx-auto text-center">
+            <h2 class="text-4xl font-extrabold text-yellow-500 mb-4">Films à l'affiche</h2>
+            <p class="text-lg text-white">Découvrez les films incontournables du moment.</p>
+            <div class="mt-12 grid grid-cols-1 gap-12">
+                {% if filmsSessions is not empty %}
+                    {# Afficher chaque film une seule fois avec ses séances #}
+                    {% for filmData in filmsSessions %}
+                        {% set film = filmData.film %}
+                        <div class="bg-gray-900 text-gray-200 shadow-2xl rounded-xl overflow-hidden flex flex-col lg:flex-row mb-12 hover:shadow-2xl hover:scale-105 transition duration-300">
+                            <!-- Section de l'affiche -->
+                            <div class="w-full lg:w-1/3 h-72 relative">
+                                <img
+                                        src="{{ asset('/images/film/' ~ film.filmFilename) }}"
+                                        alt="Affiche du film"
+                                        class="w-full h-full object-fill rounded-t-lg lg:rounded-l-lg shadow-lg">
+                            </div>
+
+                            <!-- Section des détails -->
+                            <div class="p-6 flex flex-col justify-between flex-grow">
+                                <h3 class="text-2xl font-bold text-white mb-4">{{ film.title }}</h3>
+                                <p class="text-gray-400 text-sm mb-4">Durée: <span class="text-gray-200 font-semibold">{{ film.duration }} minutes</span></p>
+
+                                <div class="bg-gray-800 p-4 rounded-lg">
+                                    <h4 class="text-lg font-bold text-white mb-2">Séances disponibles :</h4>
+                                    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+                                        {% for session in filmData.sessions %}
+                                            {% set isAvailable = available_seats >= app.request.query.get('number_of_people', 1) %}
+                                            <a href="{{ isAvailable ? path('app_seats_reservation', {'sessionId': session.id}) : '#' }}" class="bg-gray-700 text-white py-2 px-4 rounded-md hover:bg-yellow-500 transition-all {% if not isAvailable %}pointer-events-none opacity-50 line-through{% endif %}">
+                                                {{ session.startDate|date('H\\hi') }}
+                                                <br>
+                                                <span class="text-xs">{{ available_seats }} places disponibles</span>
+                                            </a>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="text-white">Aucun film ne correspond à votre filtre.</p>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-black py-6 text-center text-gray-500">
+        <p>&copy; 2025 Cinéma XYZ. Tous droits réservés.</p>
+    </footer>
+{% endblock %}

@@ -1,0 +1,70 @@
+{% extends 'layouts/base.html.twig' %}
+{% block title %}Page d'accueil'{% endblock %}
+{% block content %}
+    <header>
+        {% include "header.html.twig" %}
+    </header>
+    <!-- Insertion de la vidéo d'accueil -->
+    <section class="banner-background">
+        <video class="banner-video" autoplay loop muted>
+            <source src="{{ asset('videos/banner.mp4') }}" type="video/mp4">
+            Votre navigateur ne supporte pas la vidéo.
+        </video>
+        <div class="banner-content">
+            <h1 class="text-5xl font-bold leading-tight sm:text-6xl lg:text-7xl text-yellow-500 drop-shadow-lg">L'univers du cinéma à découvrir</h1>
+            <p class="text-xl sm:text-2xl mt-6 drop-shadow-md">Explorez les films à l'affiche et vivez des expériences immersives inoubliables.</p>
+            <a href="#films" class="mt-8 inline-block bg-yellow-500 hover:bg-yellow-400 text-black py-3 px-8 rounded-full text-lg font-semibold transition-all">Voir les films</a>
+        </div>
+    </section>
+
+    <!-- Films Section -->
+    <section id="films" class="py-20 bg-black">
+        <div class="max-w-7xl mx-auto text-center">
+            <h2 class="text-4xl font-extrabold text-yellow-500">Films à l'affiche</h2>
+            <p class="text-lg mt-4 text-white">Découvrez les dernières sorties et les films incontournables du moment.</p>
+            <div class="mt-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+                <!-- Film Card -->
+                {% for film in films %}
+                <div class="relative bg-gray-800 rounded-lg overflow-hidden shadow-lg group transition-all duration-300 transform hover:shadow-2xl">
+                    <img src="{{ asset("/images/film/"~ film.filmFilename) }}" alt="{{ film.title }}" class="w-full h-72 transition-opacity group-hover:opacity-90">
+                    <div class="p-4 text-center">
+                        <h3 class="text-xl font-semibold text-yellow-500 transition-colors group-hover:text-yellow-400">
+                            {{ film.title }}</h3>
+                        <p class="text-gray-400 text-sm mt-2">Genre: {{ film.getGenresAsString() }}</p>
+                        <p class="text-gray-400 text-sm mt-1">Durée: {{ film.duration }} minutes</p>
+                    </div>
+                    <!-- Hidden Section for Hover -->
+                    <div class="p-2 opacity-0 h-0 group-hover:opacity-100 group-hover:h-20 transition-all duration-300">
+                        <p class="text-white text-sm">Note IMDb : 8.5/10</p>
+                        <a href="#" class="mt-2 mb-2 inline-block bg-yellow-500 hover:bg-yellow-400 text-black py-2 px-4 rounded-full text-sm font-semibold transition-all">Réserver</a>
+                    </div>
+                </div>
+                    {% else %}
+                    <p>Aucun film à l'affiche !</p>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-black">
+        <div class="max-w-7xl mx-auto text-center text-white">
+            <h2 class="text-4xl font-extrabold text-yellow-500">À propos de notre Cinéma</h2>
+            <p class="mt-6 text-lg text-gray-300">Offrir une expérience cinéma premium avec une qualité de projection incomparable.</p>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-black">
+        <div class="max-w-7xl mx-auto text-center text-white">
+            <h2 class="text-4xl font-extrabold text-yellow-500">Contactez-nous</h2>
+            <p class="mt-6 text-lg text-gray-300">Nous serons ravis de répondre à toutes vos questions et demandes.</p>
+            <a href="mailto:contact@cinemaxyz.com" class="mt-8 inline-block bg-yellow-500 hover:bg-yellow-400 text-black py-3 px-8 rounded-full text-lg font-semibold transition-all">Envoyer un message</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black py-6 text-center text-gray-500">
+        <p>&copy; 2025 Cinéma XYZ. Tous droits réservés.</p>
+    </footer>
+{% endblock content %}

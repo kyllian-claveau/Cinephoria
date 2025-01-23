@@ -1,0 +1,48 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block content %}
+<header>
+    {% include "header.html.twig" %}
+</header>
+
+<div class="min-h-screen bg-black flex items-center justify-center px-6 py-12">
+    <div class="w-full sm:w-96 bg-gray-800 rounded-lg shadow-lg p-8">
+        <div class="flex justify-center mb-6">
+            <img class="w-auto h-24" src="{{ asset('images/logo.png') }}" alt="SoigneMoi">
+        </div>
+
+        <h2 class="text-3xl font-bold text-center text-white mb-6">Connexion</h2>
+
+        {{ form_start(loginForm, { 'attr': { 'class': 'space-y-6', 'id': 'loginForm' } }) }}
+        <div>
+            {{ form_label(loginForm._username,"Email", { 'attr': { 'class': 'block text-sm font-medium text-gray-300' } }) }}
+            <div class="mt-2">
+            {{ form_widget(loginForm._username, {'attr': {'class': 'block w-full px-4 py-2 rounded-md border border-gray-600 bg-gray-700 text-white focus:ring-2 focus:ring-indigo-500 focus:outline-none'}}) }}
+            </div>
+            </div>
+
+            <div>
+            {{ form_label(loginForm._password,"Mot de passe", { 'attr': { 'class': 'block text-sm font-medium text-gray-300' }}) }}
+            <div class="mt-2">
+            {{ form_widget(loginForm._password, {'attr': {'class': 'block w-full px-4 py-2 rounded-md border border-gray-600 bg-gray-700 text-white focus:ring-2 focus:ring-indigo-500 focus:outline-none'}}) }}
+            </div>
+            </div>
+
+            <div class="mt-4">
+            <button type="submit"
+            class="w-full py-2 px-4 bg-indigo-600 text-white font-semibold rounded-md hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500">
+            Se connecter
+            </button>
+            </div>
+                {{ form_end(loginForm) }}
+            <div class="mt-6 text-center text-sm text-gray-400">
+            Déjà membre ?
+            <a href="{{ path('app_register') }}" class="text-indigo-600 font-semibold hover:text-indigo-500">
+                S'inscrire
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

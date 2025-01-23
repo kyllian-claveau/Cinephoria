@@ -1,0 +1,42 @@
+{% extends 'layouts/baseEmployee.html.twig' %}
+
+{% block title %}Tableau de bord{% endblock %}
+
+{% block content %}
+    <!-- Section des statistiques -->
+    <div class="mt-24 md:ml-64 px-4 sm:px-6 lg:px-8">
+        <section>
+            <h2 class="text-xl font-semibold text-gray-700">Statistiques</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+                <div class="bg-white shadow-lg rounded-lg p-6">
+                    <h3 class="text-lg font-medium text-gray-700">Activité récente</h3>
+                    <p class="mt-2 text-gray-500">15 nouvelles actions ce mois-ci</p>
+                </div>
+                <div class="bg-white shadow-lg rounded-lg p-6">
+                    <h3 class="text-lg font-medium text-gray-700">Progrès</h3>
+                    <p class="mt-2 text-gray-500">Vous avez complété 70% de vos objectifs</p>
+                </div>
+                <div class="bg-white shadow-lg rounded-lg p-6">
+                    <h3 class="text-lg font-medium text-gray-700">Messages</h3>
+                    <p class="mt-2 text-gray-500">Vous avez 5 nouveaux messages</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section des actions rapides -->
+        <section class="mt-8">
+            <h2 class="text-xl font-semibold text-gray-700">Actions rapides</h2>
+            <div class="flex space-x-4 mt-4">
+                <button class="flex-1 bg-indigo-600 text-white py-3 px-6 rounded-lg shadow-lg hover:bg-indigo-700">
+                    <i class="fas fa-plus-circle mr-3"></i> Nouvelle tâche
+                </button>
+                <button class="flex-1 bg-green-500 text-white py-3 px-6 rounded-lg shadow-lg hover:bg-green-600">
+                    <i class="fas fa-chart-line mr-3"></i> Voir les rapports
+                </button>
+                <button class="flex-1 bg-red-500 text-white py-3 px-6 rounded-lg shadow-lg hover:bg-red-600">
+                    <i class="fas fa-bell mr-3"></i> Notifications
+                </button>
+            </div>
+        </section>
+    </div>
+{% endblock %}

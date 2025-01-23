@@ -1,0 +1,11 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %}Compte activé{% endblock %}
+
+{% block body %}
+    <h1>Félicitations !</h1>
+
+    <p>Votre compte a été activé avec succès. Vous pouvez maintenant vous connecter.</p>
+
+    <a href="{{ path('app_login') }}" class="btn btn-success">Se connecter</a>
+{% endblock %}

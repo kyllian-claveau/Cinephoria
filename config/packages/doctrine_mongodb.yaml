@@ -1,0 +1,15 @@
+doctrine_mongodb:
+  connections:
+    default:
+      server: '%env(MONGODB_DSN)%'
+  default_database: cinema_stats
+  document_managers:
+    default:
+      auto_mapping: true
+      mappings:
+        App:
+          is_bundle: false
+          type: attribute
+          dir: '%kernel.project_dir%/src/Document'
+          prefix: 'App\Document'
+          alias: App

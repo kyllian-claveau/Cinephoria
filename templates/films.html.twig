@@ -1,0 +1,93 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %}Vos films {% endblock %}
+
+{% block content %}
+    <header>
+        {% include "header.html.twig" %}
+    </header>
+    <section id="filters" class="pt-20 py-6 bg-gray-800">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-3xl font-extrabold text-yellow-500 text-center">Filtrer les films</h2>
+            <form method="get" action="{{ path('app_films') }}" class="mt-8">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div>
+                        <label for="cinema" class="block text-lg text-white">Cinéma</label>
+                        <select name="cinema" id="cinema" class="block w-full p-2 mt-2 rounded-lg bg-gray-700 text-white">
+                            <option value="">Tous les cinémas</option>
+                            {% for cinema in cinemas %}
+                                <option value="{{ cinema.id }}" {% if app.request.query.get('cinema') == cinema.id %}selected{% endif %}>
+                                    {{ cinema.name }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="genre" class="block text-lg text-white">Genre</label>
+                        <select name="genre" id="genre" class="block w-full p-2 mt-2 rounded-lg bg-gray-700 text-white">
+                            <option value="">Tous les genres</option>
+                            {% for genre in genres %}
+                                <option value="{{ genre.id }}" {% if app.request.query.get('genre') == genre.id %}selected{% endif %}>
+                                    {{ genre.name }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="day" class="block text-lg text-white">Jour</label>
+                        <input type="date" name="day" id="day" class="block w-full p-2 mt-2 rounded-lg bg-gray-700 text-white" value="{{ app.request.query.get('day') }}">
+                    </div>
+                </div>
+
+                <div class="mt-6 text-center">
+                    <button type="submit" class="bg-yellow-500 hover:bg-yellow-400 text-black py-2 px-4 rounded-full text-lg font-semibold transition-all">
+                        Filtrer les films
+                    </button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <section id="films" class="py-20 bg-black">
+        <div class="max-w-7xl mx-auto text-center">
+            <h2 class="text-4xl font-extrabold text-yellow-500">Films à l'affiche</h2>
+            <p class="text-lg mt-4 text-white">Découvrez les films incontournables du moment.</p>
+            <div class="mt-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+                {% if filmsFilter is not empty %}
+                    {% for film in filmsFilter %}
+                        <div class="relative bg-gray-800 rounded-lg overflow-hidden shadow-lg group transition-all duration-300 transform hover:shadow-2xl">
+                            <img src="{{ asset("/images/film/" ~ film.filmFilename) }}" alt="{{ film.title }}" class="w-full h-72 transition-opacity group-hover:opacity-90">
+                            <div class="p-4 text-center">
+                                <h3 class="text-xl font-semibold text-yellow-500 transition-colors group-hover:text-yellow-400">
+                                    {{ film.title }}</h3>
+                                <p class="text-gray-400 text-sm mt-2">Genre: {{ film.getGenresAsString() }}</p>
+                                <p class="text-gray-400 text-sm mt-1">Durée: {{ film.duration }} minutes</p>
+                            </div>
+                            <div class="p-2 opacity-0 h-0 group-hover:opacity-100 group-hover:h-20 transition-all duration-300">
+                                {% if film.averageRating is not null %}
+                                    <p class="text-yellow-500 mt-2">Note moyenne: {{ film.averageRating }} / 5</p>
+                                {% else %}
+                                    <p class="text-gray-400 mt-2">Aucune note pour ce film</p>
+                                {% endif %}
+                                <a href="{{ path('app_film_show', { id: film.id } ) }}" class="mt-2 mb-2 inline-block bg-yellow-500 hover:bg-yellow-400 text-black py-2 px-4 rounded-full text-sm font-semibold transition-all">Réserver</a>
+                            </div>
+                        </div>
+                    {% else %}
+                        <p>Aucun film ne correspond à votre filtre.</p>
+                    {% endfor %}
+                {% else %}
+                    <p>Aucun film à l'affiche actuellement.</p>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-black py-6 text-center text-gray-500">
+        <p>&copy; 2025 Cinéphoria. Tous droits réservés.</p>
+        <p>Adresse (Siège social) : 123 Avenue des Films, 75000 Paris</p>
+        <p>Numéro de GSM : 01 23 45 67 89</p>
+        <p>Horaires : Lundi - Dimanche: 10h00 - 23h00</p>
+    </footer>
+{% endblock %}

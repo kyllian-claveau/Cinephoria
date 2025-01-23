@@ -1,0 +1,80 @@
+{% extends 'layouts/base.html.twig' %}
+{% block title %}SoigneMoi | Inscription{% endblock %}
+
+{% block content %}
+    <div class="pt-24 flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 bg-black">
+        <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+            <img class="mx-auto h-16 w-auto" src="{{ asset('images/logo.png') }}" alt="SoigneMoi">
+            <h2 class="mt-10 text-center text-3xl font-bold tracking-tight text-yellow-500">Créer un compte</h2>
+        </div>
+
+        <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+            <div class="bg-gray-800 py-8 px-6 shadow-lg rounded-lg sm:px-10">
+                {{ form_start(form, {'attr': {'class': 'space-y-6'}}) }}
+
+                <div>
+                    <label for="firstname" class="block text-sm font-medium text-yellow-500">Prénom</label>
+                    <div class="mt-2">
+                        {{ form_widget(form.firstname, {
+                            'attr': {
+                                'class': 'block w-full rounded-md bg-gray-700 text-white border-0 py-2 px-3 shadow-sm focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm'
+                            }
+                        }) }}
+                    </div>
+                </div>
+
+                <div>
+                    <label for="lastname" class="block text-sm font-medium text-yellow-500">Nom de famille</label>
+                    <div class="mt-2">
+                        {{ form_widget(form.lastname, {
+                            'attr': {
+                                'class': 'block w-full rounded-md bg-gray-700 text-white border-0 py-2 px-3 shadow-sm focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm'
+                            }
+                        }) }}
+                    </div>
+                </div>
+
+                <div>
+                    <label for="email" class="block text-sm font-medium text-yellow-500">Adresse Email</label>
+                    <div class="mt-2">
+                        {{ form_widget(form.email, {
+                            'attr': {
+                                'class': 'block w-full rounded-md bg-gray-700 text-white border-0 py-2 px-3 shadow-sm focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm'
+                            }
+                        }) }}
+                    </div>
+                </div>
+
+                <div>
+                    <label for="password" class="block text-sm font-medium text-yellow-500">Mot de passe</label>
+                    <div class="mt-2">
+                        {{ form_widget(form.password, {
+                            'attr': {
+                                'class': 'block w-full rounded-md bg-gray-700 text-white border-0 py-2 px-3 shadow-sm focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm'
+                            }
+                        }) }}
+                    </div>
+                </div>
+
+                <div>
+                    <button type="submit"
+                            class="w-full flex justify-center rounded-md bg-yellow-500 px-4 py-2 text-sm font-semibold text-black shadow-lg hover:bg-yellow-400 transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-500">
+                        S'enregistrer
+                    </button>
+                </div>
+                {{ form_end(form) }}
+
+                {% if app.request.query.get('confirmation_sent') %}
+                    <div class="mt-6 bg-green-500 text-white p-4 rounded-lg">
+                        Un email de confirmation a été envoyé à votre adresse. Veuillez vérifier votre boîte de réception.
+                    </div>
+                {% endif %}
+
+                <p class="mt-8 text-center text-sm text-gray-400">
+                    Déjà membre ?
+                    <a href="{{ path('app_login') }}" class="font-semibold text-yellow-500 hover:text-yellow-400">Connexion</a>
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %}{{ film.title }}{% endblock %}
+
+{% block content %}
+    <header>
+        {% include "header.html.twig" %}
+    </header>
+
+    <section id="film-details" class="py-20 bg-gray-800">
+        <div class="max-w-7xl mx-auto text-center">
+            <h2 class="text-4xl font-extrabold text-yellow-500">{{ film.title }}</h2>
+            <p class="text-lg mt-4 text-white">{{ film.description }}</p>
+            <p class="text-lg mt-4 text-white">Durée: {{ film.duration }} minutes</p>
+        </div>
+    </section>
+
+    <section id="sessions" class="py-20 bg-black">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-3xl font-extrabold text-yellow-500 text-center">Séances disponibles</h2>
+            <div class="mt-12">
+                {% for cinema in cinemas %}
+                    <div class="mt-8">
+                        <h3 class="text-2xl font-semibold text-yellow-500">{{ cinema.name }}</h3>
+
+                        {% set cinemaSessions = sessions|filter(session => session.cinema.id == cinema.id) %}
+
+                        {% if cinemaSessions is not empty %}
+                            <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                                {% for session in cinemaSessions %}
+                                    <div class="relative bg-gray-800 rounded-lg overflow-hidden shadow-lg group transition-all duration-300 transform hover:shadow-2xl">
+                                        <div class="p-4 text-center">
+                                            <p class="text-gray-400 text-sm mt-2">Jour de diffusion: {{ session.startDate|date('d-m-Y') }}</p>
+                                            <p class="text-gray-400 text-sm mt-1">Heure de début: {{ session.startDate|date('H\\hi') }}</p>
+                                            <a href="{{ path('app_seats_reservation', { sessionId: session.id }) }}" class="mt-2 mb-2 inline-block bg-yellow-500 hover:bg-yellow-400 text-black py-2 px-4 rounded-full text-sm font-semibold transition-all">Réserver</a>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <p class="text-sm text-gray-500">Il n'y a pas de séances prévues dans ce cinéma.</p>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-black py-6 text-center text-gray-500">
+        <p>&copy; 2025 Cinéma XYZ. Tous droits réservés.</p>
+    </footer>
+{% endblock %}
